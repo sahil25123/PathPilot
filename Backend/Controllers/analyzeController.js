@@ -1,4 +1,4 @@
- import multer from "multer"
+
 import parsePDF from "../Utils/parsePDF.js";
  
  
@@ -6,26 +6,29 @@ import parsePDF from "../Utils/parsePDF.js";
     res.send("Analyzer")
 }
 
+export const handleResumeAnalyzer = async (req, res) => {
+  try {
+    const file = req.file;
+    const jobDesc = req.body.jobDesc;
 
-
-
- export const handleResumeAnalyzer = (req,res) =>{
-    try{
-        const file = req.file;
-        const jobDesc= req.jobDesc;
-        console.log(file.path);
-
-        parsePDF(file.path);
-
-
-       
-        res.status(200).json({message:"Parsing"})
-
-
-    }
-    catch(e){
-        res.status(500).json({message :"Internal Server Error"})
+    if (!file) {
+      return res.status(400).json({ message: "No file uploaded" });
     }
 
-}
+    const resumeText = await parsePDF(file.path);
+
+    // Optional: delete the file after parsing
+    // fs.unlinkSync(file.path);
+
+    res.status(200).json({
+      resumeText,
+      jobDescription: jobDesc,
+      message: "Resume parsed successfully",
+    });
+  } catch (e) {
+    console.error("Resume parse failed:", e.message);
+    res.status(500).json({ message: "Internal Server Error" });
+  }
+};
+
 
