@@ -1,4 +1,5 @@
  import multer from "multer"
+import parsePDF from "../Utils/parsePDF.js";
  
  
  export const  analyzer = (req, res) =>{
@@ -12,8 +13,11 @@
     try{
         const file = req.file;
         const jobDesc= req.jobDesc;
+        console.log(file.path);
 
-        res.json(file , jobDesc);
+        parsePDF(file.path);
+
+
        
         res.status(200).json({message:"Parsing"})
 
