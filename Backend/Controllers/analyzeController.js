@@ -1,34 +1,27 @@
-
 import parsePDF from "../Utils/parsePDF.js";
- 
+import {ResumeAnalyzer} from "../OpenAI/ResumeAnalyzer.js"
  
  export const  analyzer = (req, res) =>{
     res.send("Analyzer")
-}
+};
 
 export const handleResumeAnalyzer = async (req, res) => {
   try {
     const file = req.file;
     const jobDesc = req.body.jobDesc;
 
-    if (!file) {
-      return res.status(400).json({ message: "No file uploaded" });
+    if (!file || !jobDesc) {
+      return res.status(400).json({ message: "Resume and job description required." });
     }
 
     const resumeText = await parsePDF(file.path);
-
-    // Optional: delete the file after parsing
-    // fs.unlinkSync(file.path);
+    const aiFeedback = await ResumeAnalyzer(resumeText, jobDesc);
 
     res.status(200).json({
-      resumeText,
-      jobDescription: jobDesc,
-      message: "Resume parsed successfully",
+      analysis: aiFeedback,
     });
   } catch (e) {
-    console.error("Resume parse failed:", e.message);
+    console.error("Resume analysis failed:", e.message);
     res.status(500).json({ message: "Internal Server Error" });
   }
 };
-
-
