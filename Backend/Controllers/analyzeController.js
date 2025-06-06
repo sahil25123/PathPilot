@@ -1,5 +1,6 @@
 import parsePDF from "../Utils/parsePDF.js";
-import {ResumeAnalyzer} from "../OpenAI/ResumeAnalyzer.js"
+// import ResumeAnalyze from "../AI_model/ResumeAnaylze.js"
+
  
  export const  analyzer = (req, res) =>{
     res.send("Analyzer")
@@ -15,7 +16,7 @@ export const handleResumeAnalyzer = async (req, res) => {
     }
 
     const resumeText = await parsePDF(file.path);
-    const aiFeedback = await ResumeAnalyzer(resumeText, jobDesc);
+    // const aiFeedback = await ResumeAnalyze(resumeText, jobDesc);
 
     res.status(200).json({
       analysis: aiFeedback,

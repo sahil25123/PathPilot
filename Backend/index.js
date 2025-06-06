@@ -1,5 +1,6 @@
-import express, { json } from "express";
 import dotenv from "dotenv";
+import express, { json } from "express";
+
 import cors from "cors";
 import analyzeRoutes from "./Routes/analyzeRoutes.js"
 
@@ -23,4 +24,5 @@ app.get("/",(req,res)=>{
 app.use("/api/v1/analyze",analyzeRoutes)
 app.listen(port,()=>{
     console.log( `sever is running on port ${port}`)
+    
 });
