@@ -1,5 +1,5 @@
 import parsePDF from "../Utils/parsePDF.js";
-// import ResumeAnalyze from "../AI_model/ResumeAnaylze.js"
+import ResumeAnalyzer from "../AI_model/ResumeAnaylze.js"
 
  
  export const  analyzer = (req, res) =>{
@@ -16,7 +16,7 @@ export const handleResumeAnalyzer = async (req, res) => {
     }
 
     const resumeText = await parsePDF(file.path);
-    // const aiFeedback = await ResumeAnalyze(resumeText, jobDesc);
+    const aiFeedback = await ResumeAnalyzer(resumeText, jobDesc);
 
     res.status(200).json({
       analysis: aiFeedback,
