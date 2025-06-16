@@ -1,17 +1,22 @@
-import { SignedIn, SignedOut, SignInButton, UserButton } from '@clerk/clerk-react';
-import { Routes , Route } from 'react-router-dom';
-import LandingPage from './pages/LandingPage.jsx';
-import Auth from './pages/Auth.jsx';
-import Dashboard from './pages/Dashboard.jsx';
+import { Routes, Route } from 'react-router-dom';
+import Header from './components/Header';
+import LandingPage from './pages/LandingPage';
+import Auth from './pages/Auth';
+import Dashboard from './pages/Dashboard';
 
-export default function App() {
+function App() {
   return (
-    <div>
-      <Routes>
-        <Route path='/' element={<LandingPage/>}/>
-        <Route path="/auth/signup" element={<Auth/>}/>
-        <Route path="/dashboard" element={<Dashboard/>}/>
-      </Routes>
+    <div className="min-h-screen bg-background">
+      <Header />
+      <main>
+        <Routes>
+          <Route path="/" element={<LandingPage />} />
+          <Route path="/auth/signup" element={<Auth />} />
+          <Route path="/dashboard" element={<Dashboard />} />
+        </Routes>
+      </main>
     </div>
-  );
+    );
 }
+
+export default App;

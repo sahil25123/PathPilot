@@ -1,8 +1,8 @@
 import React from 'react'
-import { Link } from "react-router-dom"; // or use `next/link` if you're using Next.js
-import { Menu } from "lucide-react";
-import { Button } from "@/ui/button"; // adjust path based on your alias
-import ModeToggle from "@/ModeToggle"; // adjust import if needed
+import { Link } from "react-router-dom"
+import { Menu } from "lucide-react"
+import { Button } from "./ui/button"
+import { ModeToggle } from "./ModeToggle"
 
 const Header = () => {
   return (
@@ -10,23 +10,23 @@ const Header = () => {
       <div className="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
         
         {/* Logo */}
-        <Link href="/" className="text-white text-2xl font-bold tracking-wide">
+        <Link to="/" className="text-white text-2xl font-bold tracking-wide">
           Path<span className="text-indigo-400">Pilot</span>
         </Link>
 
         {/* Navigation Links */}
         <nav className="hidden md:flex gap-6 text-white text-sm font-medium">
-          <Link href="#features" className="hover:text-indigo-300 transition">Features</Link>
-          <Link href="#analyze" className="hover:text-indigo-300 transition">Resume Analyzer</Link>
-          <Link href="#about" className="hover:text-indigo-300 transition">About</Link>
-          <Link href="#contact" className="hover:text-indigo-300 transition">Contact</Link>
+          <Link to="#features" className="hover:text-indigo-300 transition">Features</Link>
+          <Link to="#analyze" className="hover:text-indigo-300 transition">Resume Analyzer</Link>
+          <Link to="#about" className="hover:text-indigo-300 transition">About</Link>
+          <Link to="#contact" className="hover:text-indigo-300 transition">Contact</Link>
         </nav>
 
         {/* CTA + Dark Mode */}
         <div className="flex items-center gap-3">
           <ModeToggle />
           <Button asChild className="bg-indigo-500 hover:bg-indigo-600 text-white shadow-md rounded-full px-6">
-            <Link href="/analyze">Try Now</Link>
+            <Link to="/analyze">Try Now</Link>
           </Button>
         </div>
 
