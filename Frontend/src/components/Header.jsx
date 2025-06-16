@@ -17,7 +17,7 @@ const Header = () => {
         {/* Navigation Links */}
         <nav className="hidden md:flex gap-6 text-white text-sm font-medium">
           <Link to="#features" className="hover:text-indigo-300 transition">Features</Link>
-          <Link to="#analyze" className="hover:text-indigo-300 transition">Resume Analyzer</Link>
+          <Link to="/analyze" className="hover:text-indigo-300 transition">Resume Analyzer</Link>
           <Link to="#about" className="hover:text-indigo-300 transition">About</Link>
           <Link to="#contact" className="hover:text-indigo-300 transition">Contact</Link>
         </nav>
