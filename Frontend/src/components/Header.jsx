@@ -1,4 +1,8 @@
 import React from 'react'
+import { Link } from "react-router-dom"; // or use `next/link` if you're using Next.js
+import { Menu } from "lucide-react";
+import { Button } from "@/ui/button"; // adjust path based on your alias
+import ModeToggle from "@/ModeToggle"; // adjust import if needed
 
 const Header = () => {
   return (
