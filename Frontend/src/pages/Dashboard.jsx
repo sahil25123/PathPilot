@@ -1,10 +1,11 @@
 import { useUser } from '@clerk/clerk-react'
 import React from 'react'
 import { Navigate } from 'react-router-dom';
+import Header from '../components/Header';
 
 const Dashboard = () => {
 
-    const {user , isLoaded , isSignedIn} = useUser();
+    const { isLoaded , isSignedIn} = useUser();
 
 
     if(!isSignedIn&&isLoaded){
@@ -12,7 +13,9 @@ const Dashboard = () => {
     }
   return (
     <div>
+      <Header/>
         Dashboard
+
       
     </div>
   )
