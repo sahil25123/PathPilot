@@ -3,6 +3,7 @@ import express, { json } from "express";
 
 import cors from "cors";
 import analyzeRoutes from "./Routes/analyzeRoutes.js"
+import coverLetterRoute from "./Routes/coverLetterRoute.js";
 
 
 dotenv.config();
@@ -22,6 +23,7 @@ app.get("/",(req,res)=>{
 
 
 app.use("/api/v1/analyze",analyzeRoutes)
+app.use("/api/v1/coverletter" , coverLetterRoute)
 app.listen(port,()=>{
     console.log( `sever is running on port ${port}`)
     
