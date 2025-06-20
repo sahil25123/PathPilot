@@ -21,9 +21,9 @@ app.get("/",(req,res)=>{
     res.send("Home Page Route");
 })
 
-
+app.use("/api/v1/resume" ,Resume)
 app.use("/api/v1/analyze",analyzeRoutes)
-app.use("/api/v1/coverletter" , coverLetterRoute)
+// app.use("/api/v1/coverletter" , coverLetterRoute)
 app.listen(port,()=>{
     console.log( `sever is running on port ${port}`)
     
