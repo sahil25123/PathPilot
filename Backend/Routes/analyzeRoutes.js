@@ -1,26 +1,12 @@
 import express from "express";
-import multer from "multer";
+import { upload } from "../Controllers/Resume.js";
+import { analyzer, handleResumeAnalyzer } from "../Controllers/analyzeController.js";
 
+const router = express.Router();
 
-import {analyzer ,handleResumeAnalyzer } from "../Controllers/analyzeController.js";
+router.get("/", analyzer);
 
-
-const storage = multer.diskStorage({
-    destination :function (req , file , cb) {
-        return cb (null , "./uploads");
-    },
-    filename :function (req ,file , cb){
-        return cb(null , `${file.originalname}`)
-    }
-})
-
-
-const upload = multer({ storage: storage});
-
-const router = express.Router()
-
-router.get("/",analyzer)
-
-router.post("/",  upload.single("resume"), handleResumeAnalyzer)
+// Route to analyze resume with job description
+router.post("/", upload.single("resume"), handleResumeAnalyzer);
 
 export default router;

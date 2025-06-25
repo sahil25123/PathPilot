@@ -3,7 +3,8 @@ import express, { json } from "express";
 
 import cors from "cors";
 import analyzeRoutes from "./Routes/analyzeRoutes.js"
-import coverLetterRoute from "./Routes/coverLetterRoute.js";
+// import coverLetterRoute from "./Routes/coverLetterRoute.js";
+import Resume from "./Routes/Resume.js"
 
 
 dotenv.config();
