@@ -17,6 +17,8 @@ app.use(cors());
 
 app.use(express.json());
 
+// Serve static files from uploads directory
+app.use('/uploads', express.static('uploads'));
 
 app.get("/",(req,res)=>{
     res.send("Home Page Route");
