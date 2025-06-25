@@ -1,17 +1,8 @@
 import multer from 'multer';
-import path from 'path';
+import { uploadToCloudinary } from '../Config/cloudinary.js';
 
-// Configure multer storage
-const storage = multer.diskStorage({
-    destination: function (req, file, cb) {
-        cb(null, 'uploads/');
-    },
-    filename: function (req, file, cb) {
-        const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
-        const ext = path.extname(file.originalname);
-        cb(null, 'resume-' + uniqueSuffix + ext);
-    }
-});
+// Configure multer to use memory storage (we'll handle the file in memory)
+const storage = multer.memoryStorage();
 
 // Initialize multer with configuration
 export const upload = multer({
@@ -37,16 +28,31 @@ export const handleResumeUpload = async (req, res) => {
             });
         }
 
+        // Upload file to Cloudinary
+        const result = await uploadToCloudinary(req.file.buffer, {
+            filename_override: req.file.originalname,
+            resource_type: 'auto'
+        });
+
+        // The result contains the Cloudinary URL and public_id
+        const fileUrl = result.secure_url;
+        const publicId = result.public_id;
+
+        // Here you would typically save the fileUrl and publicId to your database
+        // For example: await ResumeModel.create({ url: fileUrl, publicId });
+
         res.status(200).json({
             success: true,
-            message: 'Resume uploaded successfully',
-            filePath: req.file.path
+            message: 'Resume uploaded to Cloudinary successfully',
+            fileUrl,
+            publicId
         });
     } catch (error) {
-        console.error('Error in handleResumeUpload:', error);
+        console.error('Error uploading to Cloudinary:', error);
         res.status(500).json({
             success: false,
-            message: 'Internal server error'
+            message: error.message || 'Failed to upload resume',
+            error: process.env.NODE_ENV === 'development' ? error.stack : undefined
         });
     }
 };
