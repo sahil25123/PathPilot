@@ -1,10 +1,10 @@
 import dotenv from "dotenv";
 import express, { json } from "express";
-
 import cors from "cors";
 import analyzeRoutes from "./Routes/analyzeRoutes.js"
 // import coverLetterRoute from "./Routes/coverLetterRoute.js";
 import Resume from "./Routes/Resume.js"
+import connectMongo from "./mongoose/connect.js";
 
 
 dotenv.config();
@@ -12,6 +12,7 @@ dotenv.config();
 const app = express();
 const port = 9000 || process.env.PORT;
 
+connectMongo();
 
 app.use(cors());
 
