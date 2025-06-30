@@ -1,18 +1,18 @@
-import fs from "fs";
 import { createRequire } from "module";
-import { text } from "stream/consumers";
 const require = createRequire(import.meta.url);
 const pdf = require("pdf-parse");
 
-export const parsePDF = async (filePath) => {
+/**
+ * Parses text content from a PDF buffer
+ * @param {Buffer} fileBuffer - The PDF file buffer
+ * @returns {Promise<string>} Extracted text from the PDF
+ */
+export const parsePDF = async (fileBuffer) => {
   try {
-    const buffer = fs.readFileSync(filePath);
-    const data = await pdf(buffer);
-    // console.log(data.text)
-    return data.text; // ✅ Return the text, don't use res.json here
+    const data = await pdf(fileBuffer);
+    return data.text;
   } catch (err) {
-    console.error("Error parsing PDF:", err.message);
+    console.error("❌ Error parsing PDF:", err.message);
     throw err;
   }
 };
-
