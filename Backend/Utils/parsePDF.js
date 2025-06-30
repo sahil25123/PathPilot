@@ -1,21 +1,18 @@
-import { Buffer } from 'buffer';
+import fs from "fs";
+import { createRequire } from "module";
+import { text } from "stream/consumers";
+const require = createRequire(import.meta.url);
+const pdf = require("pdf-parse");
 
-export const parsePDF = async (buffer) => {
-
-
-    try {
-        const { default: pdf } = await import('pdf-parse');
-        const data = await pdf(Buffer.from(buffer));
-        return data.text;
-        
-    
-        
-        return data.text.trim();
-    } catch (error) {
-        console.error('Error parsing PDF:', error);
-        throw new Error(`Failed to parse PDF: ${error.message}`);
-    }
+export const parsePDF = async (filePath) => {
+  try {
+    const buffer = fs.readFileSync(filePath);
+    const data = await pdf(buffer);
+    // console.log(data.text)
+    return data.text; // ✅ Return the text, don't use res.json here
+  } catch (err) {
+    console.error("Error parsing PDF:", err.message);
+    throw err;
+  }
 };
 
-// Note: Removed default export to avoid confusion, using named export only
-export default parsePDF;

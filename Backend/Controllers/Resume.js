@@ -1,7 +1,7 @@
 import multer from 'multer';
-import { uploadToCloudinary, deleteFromCloudinary } from '../Config/cloudinary.js';
+import { uploadToCloudinary} from '../Config/cloudinary.js';
 import Resume from "../models/Resume.js";
-import { parsePDF } from '../Utils/parsePDF.js'; 
+import {parsePDF} from '../Utils/parsePDF.js'; 
 
 // Configure multer to use memory storage (we'll handle the file in memory)
 const storage = multer.memoryStorage();
@@ -22,7 +22,6 @@ export const upload = multer({
 });
 
 export const handleResumeUpload = async (req, res) => {
-    let publicId = null;
     
     try {
         const { userName, email, jobTitle, jobDescription } = req.body;
@@ -44,63 +43,37 @@ export const handleResumeUpload = async (req, res) => {
         }
 
         // Upload file to Cloudinary
-        const result = await uploadToCloudinary(file.buffer, {
+        const Uploadresult = await uploadToCloudinary(file.buffer, {
             filename_override: file.originalname,
             resource_type: 'auto',
             folder: 'resumes'
         });
-
-        // Store publicId for cleanup in case of errors
-        publicId = result.public_id;
-        const fileUrl = result.secure_url;
-
-        // Parse PDF content
         const resumeText = await parsePDF(file.buffer);
-        
         // Save to database
         const newResume = new Resume({
             userName,
             email,
             jobTitle,
             jobDescription,
-            resumeUrl: fileUrl,
+            resumeUrl: Uploadresult.secure_url,
             resumeText,
-            cloudinaryId: publicId,
+            cloudinaryId: Uploadresult.public_id,
         });
 
         await newResume.save();
 
-        return res.status(200).json({
-            success: true,
-            message: 'Resume uploaded and processed successfully',
-            data: {
-                fileUrl,
-                publicId,
-                resume: newResume
-            }
-        });
+        res.status(200).json({
+      success: true,
+      message: 'Resume uploaded successfully',
+      data: newResume,
+    });
+
 
     } catch (error) {
-        console.error('Error processing resume:', error);
-        
-        // Clean up uploaded file in Cloudinary if upload was successful but something else failed
-        if (publicId) {
-            try {
-                console.log(`Cleaning up Cloudinary file: ${publicId}`);
-                await deleteFromCloudinary(publicId);
-            } catch (deleteError) {
-                console.error('Error cleaning up Cloudinary file:', deleteError);
-            }
-        }
-        
-        const errorMessage = process.env.NODE_ENV === 'development' 
-            ? error.message 
-            : 'Failed to process resume. Please try again.';
-            
-        return res.status(500).json({
-            success: false,
-            message: errorMessage,
-            ...(process.env.NODE_ENV === 'development' && { error: error.stack })
-        });
-    }
+    console.error("Resume upload failed:", error.message);
+    res.status(500).json({
+      success: false,
+      message: 'Something went wrong while processing the resume',
+    });
+  }
 };
