@@ -3,11 +3,13 @@ import { useState } from 'react';
 import { Menu ,Zap } from 'lucide-react'
 import { Button } from './ui/button';
 import { useNavigate } from 'react-router-dom';
+import { useClerk } from '@clerk/clerk-react';
 
 
 const  Navbar = () => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const navigate = useNavigate();
+    const {openSignIn} = useClerk();
 
   return (
     <header className="sticky top-0 z-50 backdrop-blur-md bg-gray-900/80 border-b border-gray-800">
@@ -39,7 +41,7 @@ const  Navbar = () => {
             </nav>
 
             <div className="hidden md:flex items-center space-x-4">
-              <Button onClick= {() => navigate("/auth/signup")}
+              <Button onClick= {() => openSignIn({}) }
                 variant="outline"
                 className="border-gray-700 text-gray-300 hover:bg-gray-800 hover:text-white bg-transparent"
               >
